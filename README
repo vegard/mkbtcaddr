@@ -1,0 +1,57 @@
+mkbtcaddr - Generate encrypted bitcoin keypair
+
+
+Dependencies:
+
+- libssl
+- libgpgme
+
+- To install these on debian:
+
+	sudo apt-get install libssl-dev libgpgme11-dev
+
+- To compile:
+
+	g++ -Wall -o mkbtcaddr mkbtcaddr.cc -lssl -lcrypto -lgpgme
+
+- To reconstruct a wallet from the encrypted keypair, you also need GnuPG and Berkeley DB utilities:
+
+	sudo apt-get install gnupg db5.1-util
+
+
+Safety precautions / backup procedure:
+
+- Download a GNU/Linux live-CD image and burn it to a physical CD.
+
+- Make sure that the checksum of the physical CD afterwards matches the signature of the ISO file that you downloaded.
+
+- Physically disconnect the computer from the internet. This is to prevent remote attackers from accessing to the machine, either actively (by exploiting holes in the live-CD software) or passively (if the live-CD has a built-in key logger, for example).
+
+- Physically disconnect your harddisks. This prevents any malware on the CD from leaving behind any tracks (like the passphrase, if the live-CD has a key logger).
+
+- Prepare a portable medium like a USB stick by reformatting it.
+
+- Load the source code of this program on to the portable medium and compile it within the live-CD environment.
+
+- Check for any physical keyloggers.
+
+- Do not use a wireless keyboard.
+
+- Use a fresh passphrase. All of the above don't help much if you use the same passphrase regularly on another machine which does have a keylogger installed.
+
+- Run the program. The generated files will be encrypted with the passphrase and are essentially public. (The passphrase should be kept secret, however.)
+
+- BEFORE sending bitcoins to the generated address, make sure the generated files can never be lost: Send the encrypted file to all your e-mail accounts, print out physical copies (put one in your house, one in the bank, and one in a friend's house), and post it online. If you lose either the encrypted file or your passphrase, you've lost your bitcoins.
+
+
+Decryption procedure:
+
+	gpg --decrypt 1JQ3c5P1xeR1hfYecHQ6vMp2kDswn4xnVa.txt
+
+- The output file is a plaintext wallet database in the format of bitcoin version 0.3.23. To actually reconstruct the binary wallet.dat (as used by bitcoin), pipe the output of gpg to the "db_load" program, for example as follows:
+
+	gpg --decrypt 1JQ3c5P1xeR1hfYecHQ6vMp2kDswn4xnVa.txt | db5.1_load new-wallet.dat
+
+- Note that this will OVERWRITE the file new-wallet.dat if it already exists!
+
+- If gpg, db_load, or bitcoin refuses to take your file, don't panic. The worst thing you can do is post your passphrase and/or unencrypted wallet online.
