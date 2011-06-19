@@ -5,10 +5,11 @@ Dependencies:
 
 - libssl
 - libgpgme
+- libdb4.8++
 
 - To install these on debian:
 
-	sudo apt-get install libssl-dev libgpgme11-dev
+	sudo apt-get install libssl-dev libgpgme11-dev libdb4.8++-dev
 
 - To compile:
 
